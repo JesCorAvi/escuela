@@ -34,16 +34,42 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$alumno->nombre}}
                             </th>
+                            @php
+                                $total = 0;
+                            @endphp
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 1)->first()->nota}}
+                                @if($alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 1)->first())
+                                    {{$alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 1)->first()->nota}}
+                                    @php
+                                        $total += 1;
+                                    @endphp
+                                @endif
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 2)->first()->nota}}
+                                @if($alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 2)->first())
+                                    {{$alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 2)->first()->nota}}
+                                    @php
+                                        $total += 1;
+                                    @endphp
+                                @endif
+
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 3)->first()->nota}}
+                                @if($alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 3)->first())
+                                    {{$alumno->notas->where("asignatura_id", $asignaturaF)->where("trimestre", 3)->first()->nota}}
+                                    @php
+                                        $total += 1;
+                                    @endphp
+
+                                @endif
+
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                @if($total == $asignatura->where("id", $asignaturaF)->first()->numero_de_trimestres)
+                                    {{$alumno->notas->where("asignatura_id", $asignaturaF)->sum("nota")}}
+                                @else
+                                    No procede
+                                @endif
                             </th>
                         @endforeach
 
